@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Edit Data Siswa</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            color: #333;
+        }
+
+        .navbar {
+            background: #243447;
+            color: white;
+            padding: 15px 30px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar h2 {
+            margin: 0;
+            font-size: 20px;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin-left: 15px;
+        }
+
+        .navbar a:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+
+            box-shadow:
+                0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .card h1 {
+            margin-top: 0;
+            margin-bottom: 5px;
+        }
+
+        .description {
+            color: #777;
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: bold;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 11px 13px;
+
+            border: 1px solid #ccc;
+            border-radius: 7px;
+
+            font-size: 14px;
+            outline: none;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #243447;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .password-info {
+            font-size: 13px;
+            color: #777;
+            margin-top: 5px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 25px;
+        }
+
+        button,
+        .btn-kembali {
+            border: none;
+            padding: 11px 18px;
+            border-radius: 7px;
+            cursor: pointer;
+
+            font-size: 14px;
+            text-decoration: none;
+        }
+
+        .btn-simpan {
+            background: #243447;
+            color: white;
+        }
+
+        .btn-simpan:hover {
+            background: #182634;
+        }
+
+        .btn-kembali {
+            background: #ddd;
+            color: #333;
+        }
+
+        .btn-kembali:hover {
+            background: #ccc;
+        }
+
+        #message {
+            display: none;
+            padding: 12px;
+            margin-bottom: 20px;
+            border-radius: 7px;
+        }
+
+        .success {
+            background: #dff6e4;
+            color: #1d6b2f;
+        }
+
+        .error {
+            background: #fde2e2;
+            color: #9b2226;
+        }
+
+        .loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+    </style>
+</head>
+
+<body>
+
+
+<!-- ======================================
+     NAVBAR
+====================================== -->
+
+<div class="navbar">
+
+    <h2>Dashboard Siswa</h2>
+
+    <div>
+
+        <a href="dashboard_siswa.php">
+            Dashboard
+        </a>
+
+        <a href="edit_siswa.html">
+            Edit Profil
+        </a>
+
+        <a href="logout_siswa.php">
+            Logout
+        </a>
+
+    </div>
+
+</div>
+
+
+<!-- ======================================
+     CONTENT
+====================================== -->
+
+<div class="container">
+
+    <div class="card">
+
+        <h1>Edit Data Saya</h1>
+
+        <p class="description">
+            Silakan ubah data pribadi Anda.
+        </p>
+
+
+        <div id="message"></div>
+
+
+        <form id="editForm">
+
+
+            <!-- NAMA -->
+
+            <div class="form-group">
+
+                <label for="name">
+                    Nama Lengkap
+                </label>
+
+                <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    required
+                >
+
+            </div>
+
+
+            <!-- NISN -->
+
+            <div class="form-group">
+
+                <label for="nisn">
+                    NISN
+                </label>
+
+                <input
+                    type="text"
+                    id="nisn"
+                    name="nisn"
+                    required
+                >
+
+            </div>
+
+
+            <!-- TTL -->
+
+            <div class="form-group">
+
+                <label for="ttl">
+                    Tempat & Tanggal Lahir
+                </label>
+
+                <input
+                    type="text"
+                    id="ttl"
+                    name="ttl"
+                    required
+                >
+
+            </div>
+
+
+            <!-- GENDER -->
+
+            <div class="form-group">
+
+                <label for="gender">
+                    Jenis Kelamin
+                </label>
+
+                <select
+                    id="gender"
+                    name="gender"
+                    required
+                >
+
+                    <option value="">
+                        -- Pilih Jenis Kelamin --
+                    </option>
+
+                    <option value="Laki-laki">
+                        Laki-laki
+                    </option>
+
+                    <option value="Perempuan">
+                        Perempuan
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- EMAIL -->
+
+            <div class="form-group">
+
+                <label for="email">
+                    Email
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    required
+                >
+
+            </div>
+
+
+            <!-- NO HP -->
+
+            <div class="form-group">
+
+                <label for="no_hp">
+                    Nomor WhatsApp
+                </label>
+
+                <input
+                    type="text"
+                    id="no_hp"
+                    name="no_hp"
+                    required
+                >
+
+            </div>
+
+
+            <!-- ALAMAT -->
+
+            <div class="form-group">
+
+                <label for="address">
+                    Alamat
+                </label>
+
+                <textarea
+                    id="address"
+                    name="address"
+                    required
+                ></textarea>
+
+            </div>
+
+
+            <!-- PASSWORD -->
+
+            <div class="form-group">
+
+                <label for="password">
+                    Password Baru
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    minlength="6"
+                    placeholder="Kosongkan jika tidak ingin mengubah password"
+                >
+
+                <div class="password-info">
+                    Isi hanya jika ingin mengganti password.
+                    Minimal 6 karakter.
+                </div>
+
+            </div>
+
+
+            <!-- KONFIRMASI PASSWORD -->
+
+            <div class="form-group">
+
+                <label for="password_confirm">
+                    Konfirmasi Password Baru
+                </label>
+
+                <input
+                    type="password"
+                    id="password_confirm"
+                    name="password_confirm"
+                    minlength="6"
+                    placeholder="Ulangi password baru"
+                >
+
+            </div>
+
+
+            <!-- BUTTON -->
+
+            <div class="buttons">
+
+                <button
+                    type="submit"
+                    class="btn-simpan"
+                    id="btnSimpan"
+                >
+                    Simpan Perubahan
+                </button>
+
+                <a
+                    href="dashboard_siswa.php"
+                    class="btn-kembali"
+                >
+                    Kembali
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<script>
+
+const form =
+    document.getElementById("editForm");
+
+const message =
+    document.getElementById("message");
+
+const btnSimpan =
+    document.getElementById("btnSimpan");
+
+
+// ======================================
+// TAMPILKAN PESAN
+// ======================================
+
+function showMessage(
+    text,
+    type
+) {
+
+    message.textContent = text;
+
+    message.className = type;
+
+    message.style.display = "block";
+}
+
+
+// ======================================
+// LOAD DATA SISWA
+// ======================================
+
+async function loadData() {
+
+    try {
+
+        const response =
+            await fetch(
+                "update_siswa.php",
+                {
+                    method: "GET"
+                }
+            );
+
+        const result =
+            await response.json();
+
+
+        if (result.status !== "success") {
+
+            showMessage(
+                result.message,
+                "error"
+            );
+
+            return;
+        }
+
+
+        const siswa =
+            result.data;
+
+
+        document.getElementById("name").value =
+            siswa.name || "";
+
+        document.getElementById("nisn").value =
+            siswa.nisn || "";
+
+        document.getElementById("ttl").value =
+            siswa.ttl || "";
+
+        document.getElementById("gender").value =
+            siswa.gender || "";
+
+        document.getElementById("email").value =
+            siswa.email || "";
+
+        document.getElementById("no_hp").value =
+            siswa.no_hp || "";
+
+        document.getElementById("address").value =
+            siswa.address || "";
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        showMessage(
+            "Gagal mengambil data siswa.",
+            "error"
+        );
+    }
+}
+
+
+// ======================================
+// SUBMIT EDIT
+// ======================================
+
+form.addEventListener(
+    "submit",
+    async function(event) {
+
+        event.preventDefault();
+
+
+        const password =
+            document.getElementById(
+                "password"
+            ).value;
+
+        const passwordConfirm =
+            document.getElementById(
+                "password_confirm"
+            ).value;
+
+
+        // ==================================
+        // CEK PASSWORD
+        // ==================================
+
+        if (
+            password !== "" &&
+            password.length < 6
+        ) {
+
+            showMessage(
+                "Password baru minimal 6 karakter.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        if (
+            password !== passwordConfirm
+        ) {
+
+            showMessage(
+                "Konfirmasi password tidak sama.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        // ==================================
+        // KIRIM DATA
+        // ==================================
+
+        const formData =
+            new FormData(form);
+
+
+        btnSimpan.disabled = true;
+
+        btnSimpan.textContent =
+            "Menyimpan...";
+
+
+        try {
+
+            const response =
+                await fetch(
+                    "update_siswa.php",
+                    {
+                        method: "POST",
+                        body: formData
+                    }
+                );
+
+
+            const result =
+                await response.json();
+
+
+            if (
+                result.status === "success"
+            ) {
+
+                showMessage(
+                    result.message,
+                    "success"
+                );
+
+
+                // Kosongkan password
+                document.getElementById(
+                    "password"
+                ).value = "";
+
+                document.getElementById(
+                    "password_confirm"
+                ).value = "";
+
+
+                setTimeout(
+                    function() {
+
+                        window.location.href =
+                            "dashboard_siswa.php";
+
+                    },
+                    1200
+                );
+
+
+            } else {
+
+                showMessage(
+                    result.message,
+                    "error"
+                );
+            }
+
+
+        } catch (error) {
+
+            console.error(error);
+
+            showMessage(
+                "Terjadi kesalahan saat menyimpan data.",
+                "error"
+            );
+
+        } finally {
+
+            btnSimpan.disabled = false;
+
+            btnSimpan.textContent =
+                "Simpan Perubahan";
+        }
+
+    }
+);
+
+
+// ======================================
+// JALANKAN LOAD DATA
+// ======================================
+
+loadData();
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Pendaftaran Siswa</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #eef2f7;
+            color: #1f2937;
+        }
+
+
+        .container {
+            width: 100%;
+            max-width: 700px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+
+        .header {
+            background: #18243d;
+            color: white;
+            padding: 28px;
+            border-radius: 14px 14px 0 0;
+        }
+
+
+        .header h1 {
+            margin: 0 0 8px;
+            font-size: 28px;
+        }
+
+
+        .header p {
+            margin: 0;
+            color: #cbd5e1;
+        }
+
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 0 0 14px 14px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+        }
+
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 7px;
+            color: #374151;
+        }
+
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 15px;
+            outline: none;
+        }
+
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #334155;
+        }
+
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+
+        .row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+
+        small {
+            display: block;
+            margin-top: 6px;
+            color: #64748b;
+        }
+
+
+        .button {
+            width: 100%;
+            padding: 13px;
+            border: none;
+            border-radius: 8px;
+            background: #18243d;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+
+        .button:hover {
+            background: #263654;
+        }
+
+
+        .button:disabled {
+            background: #94a3b8;
+            cursor: not-allowed;
+        }
+
+
+        .info {
+            margin-top: 18px;
+            padding: 13px;
+            border-radius: 8px;
+            background: #f1f5f9;
+            color: #475569;
+            font-size: 14px;
+        }
+
+
+        .success {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+
+        .error {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+
+        .hidden {
+            display: none;
+        }
+
+
+        .login-link {
+            text-align: center;
+            margin-top: 22px;
+            padding-top: 18px;
+            border-top: 1px solid #e5e7eb;
+            color: #64748b;
+        }
+
+
+        .login-link a {
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+
+
+        @media (max-width: 600px) {
+
+            .container {
+                margin: 10px auto;
+                padding: 10px;
+            }
+
+
+            .row {
+                grid-template-columns: 1fr;
+            }
+
+
+            .card {
+                padding: 20px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+        <h1>
+            🎓 Pendaftaran Siswa
+        </h1>
+
+        <p>
+            Silakan isi data diri dengan benar.
+        </p>
+
+    </div>
+
+
+    <!-- CARD -->
+
+    <div class="card">
+
+
+        <form id="registerForm">
+
+
+            <!-- NAMA -->
+
+            <div class="form-group">
+
+                <label for="name">
+                    Nama Lengkap
+                </label>
+
+                <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    placeholder="Masukkan nama lengkap"
+                    required
+                >
+
+            </div>
+
+
+            <!-- NISN + GENDER -->
+
+            <div class="row">
+
+
+                <div class="form-group">
+
+                    <label for="nisn">
+                        NISN
+                    </label>
+
+                    <input
+                        type="text"
+                        id="nisn"
+                        name="nisn"
+                        placeholder="Masukkan NISN"
+                        maxlength="20"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="gender">
+                        Jenis Kelamin
+                    </label>
+
+                    <select
+                        id="gender"
+                        name="gender"
+                        required
+                    >
+
+                        <option value="">
+                            -- Pilih --
+                        </option>
+
+                        <option value="Laki-laki">
+                            Laki-laki
+                        </option>
+
+                        <option value="Perempuan">
+                            Perempuan
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- TTL -->
+
+            <div class="form-group">
+
+                <label for="ttl">
+                    Tempat, Tanggal Lahir
+                </label>
+
+                <input
+                    type="text"
+                    id="ttl"
+                    name="ttl"
+                    placeholder="Contoh: Ponorogo, 12 Agustus 2008"
+                    required
+                >
+
+            </div>
+
+
+            <!-- EMAIL -->
+
+            <div class="form-group">
+
+                <label for="email">
+                    Email
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="contoh@gmail.com"
+                    required
+                >
+
+            </div>
+
+
+            <!-- PASSWORD -->
+
+            <div class="form-group">
+
+                <label for="password">
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Buat password"
+                    minlength="6"
+                    required
+                >
+
+                <small>
+                    Password minimal 6 karakter.
+                </small>
+
+            </div>
+
+
+            <!-- KONFIRMASI PASSWORD -->
+
+            <div class="form-group">
+
+                <label for="password_confirm">
+                    Konfirmasi Password
+                </label>
+
+                <input
+                    type="password"
+                    id="password_confirm"
+                    name="password_confirm"
+                    placeholder="Ulangi password"
+                    minlength="6"
+                    required
+                >
+
+                <small>
+                    Masukkan password yang sama.
+                </small>
+
+            </div>
+
+
+            <!-- NO HP -->
+
+            <div class="form-group">
+
+                <label for="no_hp">
+                    No. HP / WhatsApp
+                </label>
+
+                <input
+                    type="tel"
+                    id="no_hp"
+                    name="no_hp"
+                    placeholder="Contoh: 081234567890"
+                    inputmode="numeric"
+                    maxlength="15"
+                    required
+                >
+
+                <small>
+                    Nomor ini digunakan untuk mengirim
+                    notifikasi WhatsApp.
+                </small>
+
+            </div>
+
+
+            <!-- ALAMAT -->
+
+            <div class="form-group">
+
+                <label for="address">
+                    Alamat
+                </label>
+
+                <textarea
+                    id="address"
+                    name="address"
+                    placeholder="Masukkan alamat lengkap"
+                    required
+                ></textarea>
+
+            </div>
+
+
+            <!-- TOMBOL -->
+
+            <button
+                type="submit"
+                class="button"
+                id="submitButton"
+            >
+                Daftar Sekarang
+            </button>
+
+
+        </form>
+
+
+        <!-- HASIL -->
+
+        <div
+            id="result"
+            class="info hidden"
+        ></div>
+
+
+        <!-- LOGIN -->
+
+        <div class="login-link">
+
+            Sudah punya akun?
+
+            <a href="login_siswa.html">
+                Login di sini
+            </a>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+<script>
+
+
+const form =
+    document.getElementById("registerForm");
+
+
+const submitButton =
+    document.getElementById("submitButton");
+
+
+const result =
+    document.getElementById("result");
+
+
+
+form.addEventListener(
+    "submit",
+    async function(e) {
+
+        e.preventDefault();
+
+
+        // =====================================
+        // AMBIL PASSWORD
+        // =====================================
+
+        const password =
+            document.getElementById("password").value;
+
+
+        const passwordConfirm =
+            document.getElementById(
+                "password_confirm"
+            ).value;
+
+
+
+        // =====================================
+        // CEK PASSWORD
+        // =====================================
+
+        if (password.length < 6) {
+
+            result.className =
+                "info error";
+
+            result.textContent =
+                "Password minimal 6 karakter.";
+
+            return;
+        }
+
+
+        if (password !== passwordConfirm) {
+
+            result.className =
+                "info error";
+
+            result.textContent =
+                "Konfirmasi password tidak sama.";
+
+            return;
+        }
+
+
+
+        // =====================================
+        // LOADING
+        // =====================================
+
+        submitButton.disabled = true;
+
+        submitButton.textContent =
+            "Memproses pendaftaran...";
+
+
+        result.className =
+            "info hidden";
+
+        result.textContent =
+            "";
+
+
+
+        // =====================================
+        // FORM DATA
+        // =====================================
+
+        const formData =
+            new FormData();
+
+
+
+        formData.append(
+            "name",
+            document
+                .getElementById("name")
+                .value
+                .trim()
+        );
+
+
+        formData.append(
+            "nisn",
+            document
+                .getElementById("nisn")
+                .value
+                .trim()
+        );
+
+
+        formData.append(
+            "ttl",
+            document
+                .getElementById("ttl")
+                .value
+                .trim()
+        );
+
+
+        formData.append(
+            "gender",
+            document
+                .getElementById("gender")
+                .value
+        );
+
+
+        formData.append(
+            "email",
+            document
+                .getElementById("email")
+                .value
+                .trim()
+        );
+
+
+        // PASSWORD
+        formData.append(
+            "password",
+            password
+        );
+
+
+        formData.append(
+            "no_hp",
+            document
+                .getElementById("no_hp")
+                .value
+                .trim()
+        );
+
+
+        formData.append(
+            "address",
+            document
+                .getElementById("address")
+                .value
+                .trim()
+        );
+
+
+
+        // =====================================
+        // KIRIM KE DAFTAR.PHP
+        // =====================================
+
+        try {
+
+
+            const response =
+                await fetch(
+                    "daftar.php",
+                    {
+                        method: "POST",
+                        body: formData
+                    }
+                );
+
+
+
+            const text =
+                await response.text();
+
+
+            console.log(
+                "Response server:",
+                text
+            );
+
+
+
+            // =================================
+            // CEK JSON
+            // =================================
+
+            let data;
+
+
+            try {
+
+                data =
+                    JSON.parse(text);
+
+            } catch (error) {
+
+                throw new Error(
+                    "Server tidak mengirim JSON.\n\n" +
+                    text
+                );
+
+            }
+
+
+
+            // =================================
+            // BERHASIL
+            // =================================
+
+            if (
+                data.status === "success"
+            ) {
+
+
+                result.className =
+                    "info success";
+
+
+                result.innerHTML =
+
+                    "<strong>" +
+                    "✅ Pendaftaran berhasil!" +
+                    "</strong><br><br>" +
+
+                    data.message +
+
+                    "<br><br>" +
+
+                    "Nomor pendaftaran: " +
+
+                    "<strong>" +
+
+                    data.id +
+
+                    "</strong>" +
+
+                    "<br><br>" +
+
+                    "Silakan login menggunakan " +
+
+                    "email dan password yang " +
+
+                    "telah kamu buat.";
+
+
+
+                form.reset();
+
+
+
+            } else {
+
+
+                // =================================
+                // GAGAL
+                // =================================
+
+                result.className =
+                    "info error";
+
+
+                result.textContent =
+
+                    data.message ||
+
+                    "Pendaftaran gagal.";
+
+            }
+
+
+
+        } catch (error) {
+
+
+            console.error(error);
+
+
+            result.className =
+                "info error";
+
+
+            result.innerHTML =
+
+                "<strong>" +
+                "❌ Terjadi kesalahan." +
+                "</strong><br><br>" +
+
+                error.message;
+
+        }
+
+
+
+        // =====================================
+        // KEMBALIKAN BUTTON
+        // =====================================
+
+        submitButton.disabled =
+            false;
+
+
+        submitButton.textContent =
+            "Daftar Sekarang";
+
+
+    }
+);
+
+
+</script>
+
+
+</body>
+
+</html>

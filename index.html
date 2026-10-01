@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Registri Data Siswa - Ujian ASTS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+
+<style>
+    :root{
+        --navy:        #1E2A44;
+        --navy-dark:   #141D30;
+        --navy-tint:   #E7EBF3;
+        --paper:       #EEF0F4;
+        --surface:     #FFFFFF;
+        --ink:         #1C2333;
+        --muted:       #6B7280;
+        --border:      #DCE1EA;
+        --gold:        #B8862E;
+        --gold-dark:   #93691F;
+        --gold-tint:   #F6ECD9;
+        --teal:        #2E7267;
+        --teal-tint:   #E1EFEC;
+        --rose:        #A73C4B;
+        --rose-tint:   #F3E3E5;
+        --radius-sm:   6px;
+        --radius-md:   10px;
+        --shadow:      0 1px 2px rgba(20,29,48,0.06), 0 8px 24px rgba(20,29,48,0.06);
+    }
+
+    *{ box-sizing:border-box; }
+
+    body{
+        font-family:'Inter', Helvetica, Arial, sans-serif;
+        background:var(--paper);
+        color:var(--ink);
+        margin:0;
+        padding:32px 24px 64px;
+        line-height:1.5;
+    }
+
+    .page{
+        max-width:1180px;
+        margin:0 auto;
+    }
+
+    /* ===== HEADER ===== */
+    .masthead{
+        background:linear-gradient(155deg, var(--navy) 0%, var(--navy-dark) 100%);
+        color:#fff;
+        border-radius:var(--radius-md);
+        padding:28px 32px;
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:20px;
+        flex-wrap:wrap;
+        box-shadow:var(--shadow);
+    }
+
+    .masthead-text h1{
+        font-family:'Fraunces', Georgia, serif;
+        font-weight:700;
+        font-size:1.85rem;
+        margin:0 0 6px;
+        letter-spacing:0.2px;
+    }
+
+    .masthead-text p{
+        margin:0;
+        font-size:0.92rem;
+        color:#C4CCDE;
+    }
+
+    .masthead-badge{
+        background:rgba(255,255,255,0.08);
+        border:1px solid rgba(255,255,255,0.18);
+        border-radius:999px;
+        padding:8px 18px;
+        font-size:0.82rem;
+        color:#EDE7D6;
+        white-space:nowrap;
+    }
+
+    .masthead-badge strong{
+        font-family:'JetBrains Mono', monospace;
+        color:#F3D98B;
+        font-size:1rem;
+        margin-right:5px;
+    }
+
+    
+
+    /* ===== TOOLBAR ===== */
+    .toolbar{
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:16px;
+        margin:22px 0 14px;
+        flex-wrap:wrap;
+    }
+
+    .search-box{
+        position:relative;
+        flex:1;
+        min-width:220px;
+        max-width:340px;
+    }
+
+    .search-box input{
+        width:100%;
+        padding:10px 14px 10px 36px;
+        border:1px solid var(--border);
+        border-radius:var(--radius-sm);
+        font-size:0.9rem;
+        font-family:inherit;
+        background:var(--surface);
+        color:var(--ink);
+    }
+
+    .search-box input:focus{
+        outline:none;
+        border-color:var(--gold);
+        box-shadow:0 0 0 3px var(--gold-tint);
+    }
+
+    .search-box::before{
+        content:"";
+        position:absolute;
+        left:12px;
+        top:50%;
+        transform:translateY(-50%);
+        width:14px;
+        height:14px;
+        border:2px solid var(--muted);
+        border-radius:50%;
+        box-shadow: 5px 5px 0 -3px var(--muted);
+    }
+
+    /* ===== FILTER TABS (gender) ===== */
+    .filter-tabs{
+        display:flex;
+        gap:8px;
+        margin-bottom:16px;
+        flex-wrap:wrap;
+    }
+
+    .tab-btn{
+        display:inline-flex;
+        align-items:center;
+        gap:7px;
+        border:1px solid var(--border);
+        background:var(--surface);
+        color:var(--muted);
+        padding:8px 15px;
+        border-radius:999px;
+        font-size:0.84rem;
+        font-family:inherit;
+        font-weight:600;
+        cursor:pointer;
+        transition:border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+    }
+
+    .tab-btn .tab-count{
+        font-family:'JetBrains Mono', monospace;
+        font-size:0.76rem;
+        background:var(--paper);
+        color:var(--muted);
+        padding:1px 7px;
+        border-radius:999px;
+    }
+
+    .tab-btn:hover{ border-color:var(--navy); color:var(--navy); }
+
+    .tab-btn.active{
+        background:var(--navy);
+        border-color:var(--navy);
+        color:#fff;
+    }
+    .tab-btn.active .tab-count{ background:rgba(255,255,255,0.18); color:#fff; }
+
+    .tab-btn.tab-male.active{ background:var(--teal); border-color:var(--teal); }
+    .tab-btn.tab-female.active{ background:var(--rose); border-color:var(--rose); }
+
+    .btn{
+        border:none;
+        padding:10px 18px;
+        border-radius:var(--radius-sm);
+        cursor:pointer;
+        font-size:0.88rem;
+        font-family:inherit;
+        font-weight:600;
+        transition:background 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .btn:focus-visible{
+        outline:3px solid var(--gold);
+        outline-offset:2px;
+    }
+
+    .btn-add{ background:var(--gold); color:#fff; }
+    .btn-add:hover{ background:var(--gold-dark); }
+
+    .btn-save{ background:var(--navy); color:#fff; }
+    .btn-save:hover{ background:var(--navy-dark); }
+
+    .btn-cancel{ background:transparent; color:var(--muted); border:1px solid var(--border); }
+    .btn-cancel:hover{ background:#F4F5F7; }
+
+    .btn-edit, .btn-delete{
+        padding:6px 12px;
+        font-size:0.78rem;
+        border-radius:5px;
+        border:1px solid transparent;
+        background:transparent;
+        margin-right:5px;
+    }
+
+    .btn-edit{ color:var(--teal); border-color:var(--teal); }
+    .btn-edit:hover{ background:var(--teal); color:#fff; }
+
+    .btn-delete{ color:var(--rose); border-color:var(--rose); }
+    .btn-delete:hover{ background:var(--rose); color:#fff; }
+
+    /* ===== TABLE CARD ===== */
+    .table-card{
+        background:var(--surface);
+        border:1px solid var(--border);
+        border-radius:var(--radius-md);
+        overflow:hidden;
+        box-shadow:var(--shadow);
+    }
+
+    .table-scroll{
+        overflow-x:auto;
+    }
+
+    table{
+        width:100%;
+        border-collapse:collapse;
+        min-width:920px;
+    }
+
+    thead th{
+        background:var(--navy);
+        color:#EDF0F7;
+        text-align:left;
+        font-size:0.72rem;
+        letter-spacing:0.06em;
+        text-transform:uppercase;
+        font-weight:600;
+        padding:13px 14px;
+        border-bottom:2px solid var(--navy-dark);
+        white-space:nowrap;
+    }
+
+    tbody td{
+        padding:12px 14px;
+        border-bottom:1px solid var(--border);
+        font-size:0.88rem;
+        vertical-align:top;
+    }
+
+    tbody tr:last-child td{ border-bottom:none; }
+    tbody tr:hover{ background:var(--navy-tint); }
+
+    .id-cell{
+        font-family:'JetBrains Mono', monospace;
+        color:var(--muted);
+        font-weight:500;
+    }
+
+    .nisn-cell{
+        font-family:'JetBrains Mono', monospace;
+        font-size:0.83rem;
+        color:var(--ink);
+    }
+
+    .name-cell{ font-weight:600; }
+
+    .pill{
+        display:inline-block;
+        padding:3px 11px;
+        border-radius:999px;
+        font-size:0.76rem;
+        font-weight:600;
+    }
+
+    .pill-male{ background:var(--teal-tint); color:var(--teal); }
+    .pill-female{ background:var(--rose-tint); color:var(--rose); }
+
+    .center{ text-align:center; }
+
+    .state-row td{
+        text-align:center;
+        padding:34px 14px;
+        font-size:0.9rem;
+    }
+
+    .loading{ color:var(--muted); }
+    .error-msg{ color:var(--rose); font-weight:600; }
+
+    /* ===== PAGINATION ===== */
+    .pagination-bar{
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:14px;
+        padding:14px 18px;
+        border-top:1px solid var(--border);
+        flex-wrap:wrap;
+        background:var(--surface);
+    }
+
+    .pagination-info{
+        font-size:0.82rem;
+        color:var(--muted);
+        display:flex;
+        align-items:center;
+        gap:10px;
+        flex-wrap:wrap;
+    }
+
+    .page-size-select{
+        border:1px solid var(--border);
+        border-radius:6px;
+        padding:5px 8px;
+        font-size:0.8rem;
+        font-family:inherit;
+        color:var(--ink);
+        background:#fff;
+    }
+
+    .page-size-select:focus{
+        outline:none;
+        border-color:var(--gold);
+        box-shadow:0 0 0 3px var(--gold-tint);
+    }
+
+    .pagination-controls{
+        display:flex;
+        align-items:center;
+        gap:4px;
+        flex-wrap:wrap;
+    }
+
+    .page-btn{
+        min-width:32px;
+        height:32px;
+        padding:0 8px;
+        border:1px solid var(--border);
+        background:#fff;
+        border-radius:6px;
+        cursor:pointer;
+        font-size:0.82rem;
+        font-family:inherit;
+        color:var(--ink);
+    }
+
+    .page-btn:hover:not(:disabled):not(.active){
+        border-color:var(--gold);
+        color:var(--gold-dark);
+    }
+
+    .page-btn.active{
+        background:var(--navy);
+        color:#fff;
+        border-color:var(--navy);
+        cursor:default;
+    }
+
+    .page-btn:disabled{
+        opacity:0.4;
+        cursor:not-allowed;
+    }
+
+    .page-ellipsis{
+        padding:0 4px;
+        color:var(--muted);
+        font-size:0.82rem;
+    }
+
+    .wa-status{
+        display:inline-block;
+        padding:4px 9px;
+        border-radius:999px;
+        font-size:0.72rem;
+        font-weight:700;
+        white-space:nowrap;
+    }
+
+    .wa-success{ background:var(--teal-tint); color:var(--teal); }
+    .wa-failed{ background:var(--rose-tint); color:var(--rose); }
+    .wa-pending{ background:var(--gold-tint); color:var(--gold-dark); }
+    .wa-unknown{ background:var(--paper); color:var(--muted); }
+
+    /* ===== MODAL ===== */
+    .modal-overlay{
+        display:none;
+        position:fixed;
+        inset:0;
+        background:rgba(20,29,48,0.55);
+        justify-content:center;
+        align-items:center;
+        z-index:999;
+        padding:20px;
+    }
+
+    .modal-box{
+        background:#fff;
+        border-radius:var(--radius-md);
+        width:440px;
+        max-width:100%;
+        max-height:90vh;
+        overflow-y:auto;
+        box-shadow:0 20px 50px rgba(20,29,48,0.35);
+        animation: modal-in 0.16s ease-out;
+    }
+
+    @keyframes modal-in{
+        from{ opacity:0; transform:translateY(8px) scale(0.98); }
+        to{ opacity:1; transform:translateY(0) scale(1); }
+    }
+
+    .modal-header{
+        background:var(--navy);
+        color:#fff;
+        padding:18px 24px;
+        border-radius:var(--radius-md) var(--radius-md) 0 0;
+    }
+
+    .modal-header h3{
+        margin:0;
+        font-family:'Fraunces', Georgia, serif;
+        font-weight:600;
+        font-size:1.2rem;
+    }
+
+    .modal-body{ padding:22px 24px 24px; }
+
+    .form-group{ margin-bottom:14px; }
+
+    .form-group label{
+        display:block;
+        font-size:0.78rem;
+        font-weight:600;
+        color:var(--muted);
+        margin-bottom:5px;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea{
+        width:100%;
+        padding:9px 11px;
+        border:1px solid var(--border);
+        border-radius:var(--radius-sm);
+        font-size:0.9rem;
+        font-family:inherit;
+        color:var(--ink);
+        background:#fff;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus{
+        outline:none;
+        border-color:var(--gold);
+        box-shadow:0 0 0 3px var(--gold-tint);
+    }
+
+    .form-row{
+        display:grid;
+        grid-template-columns:1fr 1fr;
+        gap:12px;
+    }
+
+    .modal-actions{
+        display:flex;
+        justify-content:flex-end;
+        gap:10px;
+        margin-top:18px;
+    }
+
+    @media (max-width: 640px){
+        body{ padding:18px 14px 48px; }
+        .masthead{ padding:22px; }
+        .form-row{ grid-template-columns:1fr; }
+    }
+    /* ===== HEADER RIGHT & LOGOUT ===== */
+
+.masthead-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.logout-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 15px;
+    background: #A73C4B;
+    color: #fff;
+    text-decoration: none;
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 6px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.logout-btn:hover {
+    background: #8E303E;
+    transform: translateY(-1px);
+}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+    <div class="masthead">
+        <div class="masthead-text">
+            <h1>Registri Data Siswa</h1>
+            <p>Sumber data: JSON API lokal &mdash; database <code>ujian_asts</code></p>
+        </div>
+        <div class="masthead-badge">
+            <strong id="totalCount">0</strong>siswa terdaftar
+        </div>
+         <a href="logout.php" class="logout-btn"
+           onclick="return confirm('Apakah Anda yakin ingin logout?')">
+            🚪 Logout
+        </a>
+    </div>
+
+    <div class="toolbar">
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Cari nama, NISN, email, atau No. HP...">
+        </div>
+        <button class="btn btn-add" onclick="openAddModal()">+ Tambah Data</button>
+    </div>
+
+    <div class="filter-tabs">
+        <button class="tab-btn active" id="tabAll" onclick="setGenderFilter('all')">
+            Semua <span class="tab-count" id="countAll">0</span>
+        </button>
+        <button class="tab-btn tab-male" id="tabMale" onclick="setGenderFilter('Laki-laki')">
+            Laki-laki <span class="tab-count" id="countMale">0</span>
+        </button>
+        <button class="tab-btn tab-female" id="tabFemale" onclick="setGenderFilter('Perempuan')">
+            Perempuan <span class="tab-count" id="countFemale">0</span>
+        </button>
+    </div>
+
+    <div class="table-card">
+        <div class="table-scroll">
+            <table>
+                <thead>
+                    <tr>
+                        <th>No / ID</th>
+                        <th>Nama</th>
+                        <th>NISN</th>
+                        <th>TTL</th>
+                        <th>Gender</th>
+                        <th>Email</th>
+                        <th>No. HP / WhatsApp</th>
+                        <th>Status WA</th>
+                        <th>Alamat</th>
+                        <th class="center">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody id="hasil">
+                    <tr class="state-row">
+                        <td colspan="10" class="loading">Memuat data...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="pagination-bar">
+            <div class="pagination-info">
+                <span id="paginationInfo">Menampilkan 0-0 dari 0 data</span>
+                <span>
+                    &middot; Tampilkan
+                    <select id="pageSizeSelect" class="page-size-select">
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                    </select>
+                    baris
+                </span>
+            </div>
+            <div class="pagination-controls" id="paginationControls"></div>
+        </div>
+    </div>
+
+</div>
+
+<!-- ================= MODAL FORM ================= -->
+<div class="modal-overlay" id="modalOverlay">
+    <div class="modal-box">
+        <div class="modal-header">
+            <h3 id="modalTitle">Tambah Data</h3>
+        </div>
+        <div class="modal-body">
+            <form id="userForm">
+                <input type="hidden" id="f_id">
+
+                <div class="form-group">
+                    <label>Nama</label>
+                    <input type="text" id="f_name" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>NISN</label>
+                        <input type="text" id="f_nisn">
+                    </div>
+                    <div class="form-group">
+                        <label>Gender</label>
+                        <select id="f_gender">
+                            <option value="Laki-laki">Laki-laki</option>
+                            <option value="Perempuan">Perempuan</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Tempat, Tanggal Lahir (TTL)</label>
+                    <input type="text" id="f_ttl" placeholder="Contoh: Ponorogo, 12 Agustus 2008">
+                </div>
+
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="f_email" required>
+                </div>
+
+                <div class="form-group">
+                    <label>No. HP / WhatsApp</label>
+                    <input type="tel" id="f_no_hp" placeholder="Contoh: 081234567890" maxlength="15" inputmode="numeric" required>
+                    <small style="display:block;margin-top:5px;color:var(--muted);font-size:0.74rem;">Nomor ini digunakan untuk mengirim notifikasi WhatsApp.</small>
+                </div>
+
+                <div class="form-group">
+                    <label>Alamat</label>
+                    <textarea id="f_address" rows="3"></textarea>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-cancel" onclick="closeModal()">Batal</button>
+                    <button type="submit" class="btn btn-save">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+// Ganti URL ini sesuai lokasi folder project di server lokal Anda
+const API_URL = "http://localhost/ujian_asts/";
+
+const tbody        = document.getElementById("hasil");
+const modalOverlay = document.getElementById("modalOverlay");
+const modalTitle   = document.getElementById("modalTitle");
+const userForm     = document.getElementById("userForm");
+const searchInput  = document.getElementById("searchInput");
+const totalCount   = document.getElementById("totalCount");
+const pageSizeSelect    = document.getElementById("pageSizeSelect");
+const paginationInfo    = document.getElementById("paginationInfo");
+const paginationControls= document.getElementById("paginationControls");
+
+let allData      = [];
+let currentView  = [];   // data yang sedang tampil (setelah filter pencarian & gender)
+let currentPage  = 1;
+let pageSize     = parseInt(pageSizeSelect.value, 10);
+let genderFilter = "all"; // 'all' | 'Laki-laki' | 'Perempuan'
+
+const tabAll    = document.getElementById("tabAll");
+const tabMale   = document.getElementById("tabMale");
+const tabFemale = document.getElementById("tabFemale");
+const countAll    = document.getElementById("countAll");
+const countMale   = document.getElementById("countMale");
+const countFemale = document.getElementById("countFemale");
+
+// ============ LOAD DATA (READ) ============
+function loadData(){
+    tbody.innerHTML = `<tr class="state-row"><td colspan="10" class="loading">Memuat data...</td></tr>`;
+
+    fetch(API_URL + "data_json.php")
+    .then(response => response.json())
+    .then(data => {
+        allData = Array.isArray(data) ? data : [];
+        currentPage = 1;
+        updateGenderCounts();
+        applyFilters();
+    })
+    .catch(error => {
+        tbody.innerHTML = `
+        <tr class="state-row">
+            <td colspan="10" class="error-msg">
+                Gagal mengambil data JSON. Pastikan server lokal (Apache/MySQL) aktif.
+            </td>
+        </tr>`;
+        console.log(error);
+    });
+}
+
+// ============ RENDER TABLE (dengan pagination) ============
+function renderTable(data){
+    totalCount.textContent = allData.length;
+    currentView = data;
+
+    const totalItems = data.length;
+    const totalPages = Math.max(1, Math.ceil(totalItems / pageSize));
+
+    if(currentPage > totalPages) currentPage = totalPages;
+    if(currentPage < 1) currentPage = 1;
+
+    if(totalItems === 0){
+        tbody.innerHTML = `<tr class="state-row"><td colspan="10">Tidak ada data yang cocok</td></tr>`;
+        paginationInfo.textContent = "Menampilkan 0-0 dari 0 data";
+        paginationControls.innerHTML = "";
+        return;
+    }
+
+    const startIndex = (currentPage - 1) * pageSize;
+    const pageData   = data.slice(startIndex, startIndex + pageSize);
+
+    let html = "";
+
+    pageData.forEach((item) => {
+        const genderClass = (item.gender === "Perempuan") ? "pill-female" : "pill-male";
+        const waStatus = String(item.wa_status ?? "pending").toLowerCase();
+        let waClass = "wa-unknown";
+        let waLabel = item.wa_status ?? "-";
+
+        if (waStatus === "success" || waStatus === "terkirim") {
+            waClass = "wa-success";
+            waLabel = "Terkirim";
+        } else if (waStatus === "failed" || waStatus === "gagal") {
+            waClass = "wa-failed";
+            waLabel = "Gagal";
+        } else if (waStatus === "pending") {
+            waClass = "wa-pending";
+            waLabel = "Pending";
+        }
+
+        html += `
+        <tr>
+            <td class="id-cell">#${item.id}</td>
+            <td class="name-cell">${item.name ?? ""}</td>
+            <td class="nisn-cell">${item.nisn ?? "-"}</td>
+            <td>${item.ttl ?? "-"}</td>
+            <td><span class="pill ${genderClass}">${item.gender ?? "-"}</span></td>
+            <td>${item.email ?? ""}</td>
+            <td>${item.no_hp ?? "-"}</td>
+            <td><span class="wa-status ${waClass}">${waLabel}</span></td>
+            <td>${item.address ?? ""}</td>
+            <td class="center">
+                <button class="btn btn-edit" onclick='openEditModal(${JSON.stringify(item)})'>Edit</button>
+                <button class="btn btn-delete" onclick="hapusData(${item.id})">Hapus</button>
+            </td>
+        </tr>
+        `;
+    });
+
+    tbody.innerHTML = html;
+
+    const showStart = startIndex + 1;
+    const showEnd   = Math.min(startIndex + pageSize, totalItems);
+    paginationInfo.textContent = `Menampilkan ${showStart}-${showEnd} dari ${totalItems} data`;
+
+    renderPaginationControls(totalPages);
+}
+
+// ============ KONTROL TOMBOL PAGINATION ============
+function renderPaginationControls(totalPages){
+    let html = "";
+
+    html += `<button class="page-btn" ${currentPage === 1 ? "disabled" : ""} onclick="goToPage(${currentPage - 1})">&lsaquo;</button>`;
+
+    const pagesToShow = getPageNumbers(currentPage, totalPages);
+
+    pagesToShow.forEach(p => {
+        if(p === "..."){
+            html += `<span class="page-ellipsis">&hellip;</span>`;
+        } else {
+            html += `<button class="page-btn ${p === currentPage ? "active" : ""}" onclick="goToPage(${p})">${p}</button>`;
+        }
+    });
+
+    html += `<button class="page-btn" ${currentPage === totalPages ? "disabled" : ""} onclick="goToPage(${currentPage + 1})">&rsaquo;</button>`;
+
+    paginationControls.innerHTML = html;
+}
+
+// Menentukan nomor halaman yang ditampilkan (dengan ellipsis jika banyak)
+function getPageNumbers(current, total){
+    const pages = [];
+
+    if(total <= 7){
+        for(let i = 1; i <= total; i++) pages.push(i);
+        return pages;
+    }
+
+    pages.push(1);
+    if(current > 3) pages.push("...");
+
+    const start = Math.max(2, current - 1);
+    const end   = Math.min(total - 1, current + 1);
+    for(let i = start; i <= end; i++) pages.push(i);
+
+    if(current < total - 2) pages.push("...");
+    pages.push(total);
+
+    return pages;
+}
+
+function goToPage(page){
+    const totalPages = Math.max(1, Math.ceil(currentView.length / pageSize));
+    if(page < 1 || page > totalPages) return;
+    currentPage = page;
+    renderTable(currentView);
+}
+
+// ============ UBAH JUMLAH BARIS PER HALAMAN ============
+pageSizeSelect.addEventListener("change", function(){
+    pageSize = parseInt(pageSizeSelect.value, 10);
+    currentPage = 1;
+    renderTable(currentView);
+});
+
+// ============ FILTER GENDER (Laki-laki / Perempuan / Semua) ============
+function setGenderFilter(value){
+    genderFilter = value;
+    currentPage = 1;
+
+    tabAll.classList.toggle("active", value === "all");
+    tabMale.classList.toggle("active", value === "Laki-laki");
+    tabFemale.classList.toggle("active", value === "Perempuan");
+
+    applyFilters();
+}
+
+// Menghitung ulang jumlah data per gender untuk label di tab
+function updateGenderCounts(){
+    const male   = allData.filter(item => item.gender === "Laki-laki").length;
+    const female = allData.filter(item => item.gender === "Perempuan").length;
+
+    countAll.textContent    = allData.length;
+    countMale.textContent   = male;
+    countFemale.textContent = female;
+}
+
+// ============ GABUNGAN PENCARIAN + FILTER GENDER ============
+function applyFilters(){
+    const q = searchInput.value.trim().toLowerCase();
+
+    let result = allData;
+
+    if(genderFilter !== "all"){
+        result = result.filter(item => item.gender === genderFilter);
+    }
+
+    if(q !== ""){
+        result = result.filter(item =>
+            (item.name  ?? "").toLowerCase().includes(q) ||
+            (item.nisn  ?? "").toLowerCase().includes(q) ||
+            (item.email ?? "").toLowerCase().includes(q) ||
+            (item.no_hp ?? "").toLowerCase().includes(q)
+        );
+    }
+
+    renderTable(result);
+}
+
+// ============ SEARCH ============
+searchInput.addEventListener("input", function(){
+    currentPage = 1;
+    applyFilters();
+});
+
+// ============ MODAL HELPERS ============
+function openAddModal(){
+    modalTitle.innerText = "Tambah Data";
+    userForm.reset();
+    document.getElementById("f_id").value = "";
+    modalOverlay.style.display = "flex";
+}
+
+function openEditModal(item){
+    modalTitle.innerText = "Edit Data";
+    document.getElementById("f_id").value      = item.id;
+    document.getElementById("f_name").value    = item.name ?? "";
+    document.getElementById("f_nisn").value    = item.nisn ?? "";
+    document.getElementById("f_ttl").value     = item.ttl ?? "";
+    document.getElementById("f_gender").value  = item.gender ?? "Laki-laki";
+    document.getElementById("f_email").value   = item.email ?? "";
+    document.getElementById("f_no_hp").value   = item.no_hp ?? "";
+    document.getElementById("f_address").value = item.address ?? "";
+    modalOverlay.style.display = "flex";
+}
+
+function closeModal(){
+    modalOverlay.style.display = "none";
+}
+
+modalOverlay.addEventListener("click", function(e){
+    if(e.target === modalOverlay) closeModal();
+});
+
+// ============ ADD & EDIT (CREATE / UPDATE) ============
+userForm.addEventListener("submit", function(e){
+    e.preventDefault();
+
+    const id = document.getElementById("f_id").value;
+
+    const formData = new FormData();
+    formData.append("id", id);
+    formData.append("name", document.getElementById("f_name").value);
+    formData.append("nisn", document.getElementById("f_nisn").value);
+    formData.append("ttl", document.getElementById("f_ttl").value);
+    formData.append("gender", document.getElementById("f_gender").value);
+    formData.append("email", document.getElementById("f_email").value);
+    formData.append("no_hp", document.getElementById("f_no_hp").value);
+    formData.append("address", document.getElementById("f_address").value);
+
+    const endpoint = id ? "update.php" : "add.php";
+
+    const saveButton = userForm.querySelector("button[type=\"submit\"]");
+    saveButton.disabled = true;
+    saveButton.textContent = "Menyimpan...";
+
+    fetch(API_URL + endpoint, {
+        method: "POST",
+        body: formData
+    })
+    .then(async response => {
+        const text = await response.text();
+        console.log("HTTP STATUS:", response.status);
+        console.log("RESPONS SERVER:", text);
+
+        let result;
+        try {
+            result = JSON.parse(text);
+        } catch (parseError) {
+            throw new Error(
+                "Server tidak mengirim JSON.\n\nRespons server:\n" + text
+            );
+        }
+
+        if (!response.ok) {
+            throw new Error(result.message || "Server mengembalikan error HTTP " + response.status);
+        }
+
+        return result;
+    })
+    .then(result => {
+        alert(result.message || "Proses selesai.");
+
+        if(result.status === "success"){
+            closeModal();
+            loadData();
+        }
+    })
+    .catch(error => {
+        console.error("ERROR SIMPAN:", error);
+        alert("Terjadi kesalahan saat menyimpan data.\n\n" + error.message);
+    })
+    .finally(() => {
+        saveButton.disabled = false;
+        saveButton.textContent = "Simpan";
+    });
+});
+
+// ============ DELETE (HAPUS) ============
+function hapusData(id){
+    if(!confirm("Yakin ingin menghapus data ini?")) return;
+
+    const formData = new FormData();
+    formData.append("id", id);
+
+    fetch(API_URL + "delete.php", {
+        method: "POST",
+        body: formData
+    })
+    .then(res => res.json())
+    .then(res => {
+        alert(res.message);
+        if(res.status === "success"){
+            loadData();
+        }
+    })
+    .catch(err => {
+        alert("Terjadi kesalahan saat menghapus data.\n\n" + err.message);
+        console.log(err);
+    });
+}
+
+// ============ INIT ============
+loadData();
+</script>
+
+</body>
+</html>
